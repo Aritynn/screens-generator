@@ -18,18 +18,26 @@ CD /D "!outputDirectory!"
 
 REM Generates Screenshots
 
-REM Finds duration of file in seconds
-ffmpeg -i "%inputFilePath%" -map 0:v:0 -c copy -f null - > temp.txt 2>&1
-
-REM Extracts the last 2 lines of the ffmpeg output (the wanted lines are from the 2nd last to the 3rd last)
+REM Finds duration of file in frames
+ffmpeg.exe -i "%inputFilePath%" -map 0:v:0 -c copy -progress - -nostats -f null - > temp.txt 2>&1
+REM Extracts the 13th last line of the ffmpeg output for the frame count
 FOR /F "delims=" %%a in (temp.txt) do (
+    SET "lastBut12=!lastBut11!"
+    SET "lastBut11=!lastBut10!"
+    SET "lastBut10=!lastBut9!"
+    SET "lastBut9=!lastBut8!"
+    SET "lastBut8=!lastBut7!"
+    SET "lastBut7=!lastBut6!"
+    SET "lastBut6=!lastBut5!"
+    SET "lastBut5=!lastBut4!"
+    SET "lastBut4=!lastBut3!"
+    SET "lastBut3=!lastBut2!"
+    SET "lastBut2=!lastBut1!"
     SET "lastBut1=!lastLine!"
     SET "lastLine=%%a"
 )
-FOR /F "tokens=2 delims==" %%b in ("!lastBut1!") do (
-    FOR /F "tokens=1 delims= " %%c in ("%%b") do (
-        SET "frameCount=%%c"
-    )
+FOR /F "tokens=2 delims==" %%b in ("!lastBut12!") do (
+    SET "frameCount=%%b"
 )
 
 REM Divides the framecount by 15 to have an interval the length of 1/15 of the video to generate a screenshot at that interval
