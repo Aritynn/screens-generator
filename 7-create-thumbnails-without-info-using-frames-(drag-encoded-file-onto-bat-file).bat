@@ -51,7 +51,7 @@ ffmpeg -analyzeduration 2147483647^
  -probesize 2147483647^
  -i "%inputFilePath%"^
  -loglevel error^
- -vf [in]setpts=PTS,select="not(mod(n\,%interval%))"[out]^
+ -vf [in]setpts=PTS,select="not(mod(n\,%interval%))",scale=iw*sar:ih[out]^
  -vsync 0^
  -stats^
  -f image2^
