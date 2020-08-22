@@ -43,6 +43,8 @@ FOR /F "tokens=2 delims==" %%b in ("!lastBut12!") do (
 REM Divides the framecount by 15 to have an interval the length of 1/15 of the video to generate a screenshot at that interval
 SET /A interval= !frameCount! / 15
 
+ECHO FFmpeg: !lastBut12! Frame count: %frameCount% Interval: %interval%
+
 REM Deletes the PNGs already present in the directory
 DEL %screensDirectory%*.png >NUL 2>&1
 
